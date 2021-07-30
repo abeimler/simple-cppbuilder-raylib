@@ -1,0 +1,43 @@
+## base image
+FROM abeimler/simple-cppbuilder as base
+
+# Install packages available from standard repos
+RUN pacman-db-upgrade && \
+    pacman -Syyu --noconfirm && pacman-db-upgrade && \
+    pacman -S --noconfirm --needed \
+        wget curl pkg-config zip unzip tar git go && \
+    pacman -S --noconfirm  \
+        gcc binutils bison \
+        mesa glu glfw libx11 libxrender libxext libxcursor libxrandr libxinerama libxi xorg-server-devel \
+        alsa-lib alsa-utils alsa-oss \
+        python3 python-pip doxygen graphviz cmake make ninja ccache cppcheck valgrind gcovr \
+        neovim emacs nano
+
+
+ARG raylib_repo="https://github.com/raysan5/raylib.git"
+ARG raylib_branch="master"
+ARG raylib_source_dir="/home/project/libs/raylib"
+ARG raylib_binary_dir="/home/project/libs/raylib/build"
+ARG raylib_platform="Desktop"
+ARG raylib_cmake_args=""
+
+ENV TOOLCHAIN_FILE $CHAINLOAD_TOOLCHAIN_FILE
+
+RUN git clone $raylib_repo $raylib_source_dir
+RUN cd $raylib_source_dir && git checkout $raylib_branch
+RUN mkdir -p $raylib_binary_dir
+COPY scripts/docker-build.raylib.linux.sh $raylib_source_dir/docker-build.sh
+
+# build script settings
+ENV RAYLIB_TARGET "all"
+ENV RAYLIB_ADDITIONAL_CMAKE_ARGS ""
+ENV RAYLIB_CMAKE_ARGS "-DPLATFORM=$raylib_platform $raylib_cmake_args"
+ENV RAYLIB_SOURCE_DIR $raylib_source_dir
+ENV RAYLIB_BINARY_DIR $raylib_binary_dir
+ENV RAYLIB_PLATFORM $raylib_platform
+RUN cd $raylib_source_dir && $raylib_source_dir/docker-build.sh
+RUN rm -rf $raylib_binary_dir/* && mkdir -p $raylib_binary_dir
+
+COPY scripts/docker-build.linux.sh /home/project/docker-build.sh
+
+WORKDIR /home/project

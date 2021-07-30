@@ -1,0 +1,15 @@
+.git/
+.gitignore
+.gitattributes
+Dockerfile
+Dockerfile.*
+docker-compose.yml
+docker-compose.*.yml
+README.md
+build/
+build-linux/
+build-linux-shared/
+build-windows/
+build-rpi/
+build-rpi4/
+build-android/

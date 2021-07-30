@@ -1,0 +1,86 @@
+---
+version: "3.9"
+services:
+  # linux gcc debug build
+  example-gcc-debug-build-raylib:
+    build:
+      context: .
+      dockerfile: Dockerfile.linux-build
+      target: build
+    environment:
+      CC: gcc
+      CXX: g++
+      TARGET: all
+      BUILD_TYPE: Debug
+      CMAKE_GENERATOR: Ninja
+    volumes:
+      - ./build-linux:/home/project/build
+  # linux gcc release build
+  example-gcc-release-build-raylib:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: linux-build
+    environment:
+      CC: gcc
+      CXX: g++
+      TARGET: all
+      BUILD_TYPE: Release
+      CMAKE_GENERATOR: Ninja
+    volumes:
+      - ./build-linux:/home/project/build
+  # windows (mingw) release build
+  example-mingw-release-build-raylib:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: windows-build
+    environment:
+      TARGET: all
+      BUILD_TYPE: Release
+    volumes:
+      - ./build-mingw:/home/project/build
+  # web release build
+  example-web-release-build-raylib:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: web-build
+    environment:
+      TARGET: all
+      BUILD_TYPE: Release
+    volumes:
+      - ./build-web:/home/project/build
+  # rpi release build
+  example-rpi-release-build-raylib:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: rpi-build
+    environment:
+      TARGET: all
+      BUILD_TYPE: Release
+    volumes:
+      - ./build-rpi:/home/project/build
+  # rpi (Desktop) release build
+  example-rpi4-desktop-release-build-raylib:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: rpi4-desktop-build
+    environment:
+      TARGET: all
+      BUILD_TYPE: Release
+    volumes:
+      - ./build-rpi4-desktop:/home/project/build
+  # rpi4 release build
+  example-rpi4-release-build-raylib:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: rpi4-build
+    environment:
+      TARGET: all
+      BUILD_TYPE: Release
+    volumes:
+      - ./build-rpi4:/home/project/build
