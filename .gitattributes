@@ -10,5 +10,8 @@
 *.jpg binary
 *.png binary
 *.gif binary
+*.raw binary
+
+*.wav binary
 
 *.kra binary

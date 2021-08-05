@@ -27,7 +27,7 @@ ENV BUILD_TYPE "Release"
 ENV CMAKE_GENERATOR "Ninja"
 ENV CMAKE_ARGS ""
 
-RUN git clone $raylib_repo $raylib_source_dir
+RUN git clone --depth 1 $raylib_repo $raylib_source_dir
 RUN cd $raylib_source_dir && git checkout $raylib_branch
 RUN mkdir -p $raylib_binary_dir
 COPY scripts/docker-build.raylib.base.sh $raylib_source_dir/docker-build.sh

@@ -28,7 +28,7 @@ Based on [simple-cppbuilder](https://hub.docker.com/r/abeimler/simple-cppbuilder
 
 ## How to use this image
 
-You can find a basic core project example [here](https://github.com/abeimler/simple-cppbuilder-raylib/tree/main/example).
+You can find a basic core project example [here](https://github.com/abeimler/simple-cppbuilder-raylib/tree/main/example/example).
 
 ### Create a `Dockerfile` in your C/C++ raylib project
 
@@ -121,7 +121,7 @@ Custom CMake Arguments, e.g. `-DUSE_AUDIO:BOOL=OFF` or `-DSUPPORT_GESTURES_SYSTE
 
 ## License
 
-View [license information](https://github.com/abeimler/simple-cppbuilder-raylib/blob/main/LICENSE) for the software contained in this image.  
+View [license information](https://github.com/abeimler/simple-cppbuilder-raylib/blob/main/LICENSE) for this image.  
 
 As with all Docker images, these likely also contain other software which may be under other licenses (such as Bash, etc from the base distribution, along with any direct or indirect dependencies of the primary software being contained).  
 
@@ -130,6 +130,7 @@ As for any pre-built image usage, it is the image user's responsibility to ensur
 
 ### Links
 
+- [simple-cppbuilder-raylib DockerHub](https://hub.docker.com/r/abeimler/simple-cppbuilder)
 - [simple-cppbuilder-raylib GitHub](https://github.com/abeimler/simple-cppbuilder-raylib)
 - [simple-cppbuilder GitHub](https://github.com/abeimler/simple-cppbuilder)
 - [raylib](https://github.com/raysan5/raylib)

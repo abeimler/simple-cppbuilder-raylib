@@ -14,12 +14,12 @@ ARG raylib_binary_dir="/home/project/libs/raylib/build"
 ARG raylib_platform="Raspberry Pi"
 ARG raylib_cmake_args
 
-RUN git clone $raylib_repo $raylib_source_dir
+RUN git clone --depth 1 $raylib_repo $raylib_source_dir
 RUN cd $raylib_source_dir && git checkout $raylib_branch
 RUN mkdir -p $raylib_binary_dir
-COPY scripts/docker-build.raylib.cross.sh $raylib_source_dir/docker-build.sh
+COPY scripts/docker-build.raylib.rpi.sh $raylib_source_dir/docker-build.sh
 
-ENV TOOLCHAIN_FILE $CHAINLOAD_TOOLCHAIN_FILE
+ENV TOOLCHAIN_FILE $CROSS_TOOLCHAIN
 
 # build script settings
 ENV RAYLIB_ADDITIONAL_CMAKE_ARGS ""
@@ -30,6 +30,5 @@ ENV RAYLIB_PLATFORM $raylib_platform
 RUN cd $raylib_source_dir && $raylib_source_dir/docker-build.sh
 RUN rm -rf $raylib_binary_dir/* && mkdir -p $raylib_binary_dir
 
-COPY scripts/docker-build.sh /home/project/docker-build.sh
-
 WORKDIR /home/project
+COPY scripts/docker-build.rpi.sh ./docker-build.sh

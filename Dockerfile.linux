@@ -23,7 +23,7 @@ ARG raylib_cmake_args=""
 
 ENV TOOLCHAIN_FILE $CHAINLOAD_TOOLCHAIN_FILE
 
-RUN git clone $raylib_repo $raylib_source_dir
+RUN git clone --depth 1 $raylib_repo $raylib_source_dir
 RUN cd $raylib_source_dir && git checkout $raylib_branch
 RUN mkdir -p $raylib_binary_dir
 COPY scripts/docker-build.raylib.linux.sh $raylib_source_dir/docker-build.sh
@@ -38,6 +38,6 @@ ENV RAYLIB_PLATFORM $raylib_platform
 RUN cd $raylib_source_dir && $raylib_source_dir/docker-build.sh
 RUN rm -rf $raylib_binary_dir/* && mkdir -p $raylib_binary_dir
 
-COPY scripts/docker-build.linux.sh /home/project/docker-build.sh
-
 WORKDIR /home/project
+COPY scripts/docker-build.linux.sh ./docker-build.sh
+COPY scripts/docker-test.sh ./docker-test.sh
