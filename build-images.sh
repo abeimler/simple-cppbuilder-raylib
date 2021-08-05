@@ -22,16 +22,44 @@ docker build --force-rm=true -f ./Dockerfile.linux \
 docker build --force-rm=true -f ./Dockerfile.cross \
     --build-arg image_tag="x64-mingw-w64" \
     --build-arg raylib_platform="Desktop" \
+    --build-arg raylib_cmake_args="-DCMAKE_CROSSCOMPILING=ON" \
     -t abeimler/simple-cppbuilder-raylib:x64-mingw-w64 .
 docker build --force-rm=true -f ./Dockerfile.cross \
     --build-arg image_tag="x86-mingw-w64" \
     --build-arg raylib_platform="Desktop" \
+    --build-arg raylib_cmake_args="-DCMAKE_CROSSCOMPILING=ON" \
     -t abeimler/simple-cppbuilder-raylib:x86-mingw-w64 .
 
 docker build --force-rm=true -f ./Dockerfile.cross \
     --build-arg image_tag="emscripten" \
     --build-arg raylib_platform="Web" \
+    --build-arg raylib_cmake_args="-DCMAKE_CROSSCOMPILING=ON" \
     -t abeimler/simple-cppbuilder-raylib:web .
+
+
+docker build --force-rm=true -f ./Dockerfile.android \
+    --build-arg image_tag="arm-android" \
+    --build-arg raylib_platform="Android" \
+    --build-arg raylib_cmake_args="-DCMAKE_CROSSCOMPILING=ON" \
+    -t abeimler/simple-cppbuilder-raylib:arm-android .
+
+docker build --force-rm=true -f ./Dockerfile.android \
+    --build-arg image_tag="arm64-android" \
+    --build-arg raylib_platform="Android" \
+    --build-arg raylib_cmake_args="-DCMAKE_CROSSCOMPILING=ON" \
+    -t abeimler/simple-cppbuilder-raylib:arm64-android .
+
+docker build --force-rm=true -f ./Dockerfile.android \
+    --build-arg image_tag="x86-android" \
+    --build-arg raylib_platform="Android" \
+    --build-arg raylib_cmake_args="-DCMAKE_CROSSCOMPILING=ON" \
+    -t abeimler/simple-cppbuilder-raylib:x86-android .
+
+docker build --force-rm=true -f ./Dockerfile.android \
+    --build-arg image_tag="x64-android" \
+    --build-arg raylib_platform="Android" \
+    --build-arg raylib_cmake_args="-DCMAKE_CROSSCOMPILING=ON" \
+    -t abeimler/simple-cppbuilder-raylib:x64-android .
 
 
 docker build --force-rm=true -f ./Dockerfile.rpi \
@@ -58,24 +86,3 @@ docker build --force-rm=true -f ./Dockerfile.rpi \
     --build-arg raylib_platform="Raspberry Pi" \
     --build-arg raylib_cmake_args="-DCMAKE_CROSSCOMPILING=ON" \
     -t abeimler/simple-cppbuilder-raylib:rpi2 .
-
-
-docker build --force-rm=true -f ./Dockerfile.android \
-    --build-arg image_tag="arm-android" \
-    --build-arg raylib_platform="Android" \
-    -t abeimler/simple-cppbuilder-raylib:arm-android .
-
-docker build --force-rm=true -f ./Dockerfile.android \
-    --build-arg image_tag="arm64-android" \
-    --build-arg raylib_platform="Android" \
-    -t abeimler/simple-cppbuilder-raylib:arm64-android .
-
-docker build --force-rm=true -f ./Dockerfile.android \
-    --build-arg image_tag="x86-android" \
-    --build-arg raylib_platform="Android" \
-    -t abeimler/simple-cppbuilder-raylib:x86-android .
-
-docker build --force-rm=true -f ./Dockerfile.android \
-    --build-arg image_tag="x64-android" \
-    --build-arg raylib_platform="Android" \
-    -t abeimler/simple-cppbuilder-raylib:x64-android .

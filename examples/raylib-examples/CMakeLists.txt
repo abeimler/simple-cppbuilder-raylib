@@ -112,7 +112,7 @@ elseif (${PLATFORM} MATCHES "Web")
     string(REPLACE "-rdynamic" "" CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "${CMAKE_SHARED_LIBRARY_LINK_C_FLAGS}")
 endif ()
 
-#include_directories(BEFORE SYSTEM others/external/include)
+include_directories(BEFORE SYSTEM others/external/include)
 
 # Do each example
 foreach (example_source ${example_sources})

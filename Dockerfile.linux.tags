@@ -1,7 +1,5 @@
-ARG image_tag
-
 ## base image
-FROM abeimler/simple-cppbuilder:$image_tag as base
+FROM abeimler/simple-cppbuilder as base
 
 # Install packages available from standard repos
 RUN pacman-db-upgrade && \
@@ -13,34 +11,30 @@ RUN pacman-db-upgrade && \
 #RUN python3 -m pip install --upgrade pip setuptools && \
 #    python3 -m pip install glad
 
+
 ARG raylib_repo="https://github.com/raysan5/raylib.git"
-ARG raylib_branch="master"
+ARG raylib_tag
 ARG raylib_source_dir="/home/project/libs/raylib"
 ARG raylib_binary_dir="/home/project/libs/raylib/build"
-ARG raylib_platform="Android"
-ARG raylib_cmake_args
+ARG raylib_platform="Desktop"
+ARG raylib_cmake_args=""
 
-ARG android_arch
-ARG android_api_version
+ENV TOOLCHAIN_FILE $CHAINLOAD_TOOLCHAIN_FILE
 
-ENV TOOLCHAIN_FILE $CROSS_TOOLCHAIN
-
-ENV ANDROID_ARCH $android_arch
-ENV ANDROID_API_VERSION $android_api_version
-ENV NATIVE_APP_GLUE_PATH ${ANDROID_NDK_HOME}/sources/android/native_app_glue
-
-RUN git clone --depth 1 --branch $raylib_branch $raylib_repo $raylib_source_dir
+RUN git clone --depth 1 --branch tags/$raylib_tag $raylib_repo $raylib_source_dir
 RUN mkdir -p $raylib_binary_dir
-COPY scripts/docker-build.raylib.android.sh $raylib_source_dir/docker-build.sh
+COPY scripts/docker-build.raylib.linux.sh $raylib_source_dir/docker-build.sh
 
 # build script settings
+ENV RAYLIB_TARGET "all"
 ENV RAYLIB_ADDITIONAL_CMAKE_ARGS ""
 ENV RAYLIB_CMAKE_ARGS "-DPLATFORM=$raylib_platform $raylib_cmake_args"
 ENV RAYLIB_SOURCE_DIR $raylib_source_dir
 ENV RAYLIB_BINARY_DIR $raylib_binary_dir
 ENV RAYLIB_PLATFORM $raylib_platform
-#RUN cd $raylib_source_dir && $raylib_source_dir/docker-build.sh
+RUN cd $raylib_source_dir && $raylib_source_dir/docker-build.sh
 RUN rm -rf $raylib_binary_dir/* && mkdir -p $raylib_binary_dir
 
 WORKDIR /home/project
-COPY scripts/docker-build.android.sh ./docker-build.sh
+COPY scripts/docker-build.linux.sh ./docker-build.sh
+COPY scripts/docker-test.sh ./docker-test.sh

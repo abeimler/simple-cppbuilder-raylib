@@ -40,25 +40,3 @@ services:
       BUILD_TYPE: Release
     volumes:
       - ./build-mingw:/home/project/build
-  # rpi (Desktop) release build
-  example-rpi4-desktop-release-build-raylib:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: rpi4-desktop-build
-    environment:
-      TARGET: all
-      BUILD_TYPE: Release
-    volumes:
-      - ./build-rpi4-desktop:/home/project/build
-  # rpi4 release build
-  example-rpi4-release-build-raylib:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: rpi4-build
-    environment:
-      TARGET: all
-      BUILD_TYPE: Release
-    volumes:
-      - ./build-rpi4:/home/project/build

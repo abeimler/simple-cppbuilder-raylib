@@ -5,4 +5,5 @@ build-windows/
 build-mingw/
 build-rpi/
 build-rpi4/
+build-rpi4-desktop/
 build-android/

@@ -2,7 +2,7 @@
 version: "3.9"
 services:
   # linux gcc debug build
-  example-gcc-debug-build-raylib:
+  raylib-examples-gcc-debug-build-raylib:
     build:
       context: .
       dockerfile: Dockerfile
@@ -14,7 +14,7 @@ services:
       BUILD_TYPE: Debug
       CMAKE_GENERATOR: Ninja
   # linux gcc release build
-  example-gcc-release-build-raylib:
+  raylib-examples-gcc-release-build-raylib:
     build:
       context: .
       dockerfile: Dockerfile
@@ -26,7 +26,7 @@ services:
       BUILD_TYPE: Release
       CMAKE_GENERATOR: Ninja
   # windows (mingw) release build
-  example-mingw-release-build-raylib:
+  raylib-examples-mingw-release-build-raylib:
     build:
       context: .
       dockerfile: Dockerfile
@@ -35,7 +35,7 @@ services:
       TARGET: all
       BUILD_TYPE: Release
   # web release build
-  example-web-release-build-raylib:
+  raylib-examples-web-release-build-raylib:
     build:
       context: .
       dockerfile: Dockerfile
@@ -44,7 +44,7 @@ services:
       TARGET: all
       BUILD_TYPE: Release
   # rpi (Desktop) release build
-  example-rpi4-desktop-release-build-raylib:
+  raylib-examples-rpi4-desktop-release-build-raylib:
     build:
       context: .
       dockerfile: Dockerfile
@@ -53,11 +53,20 @@ services:
       TARGET: all
       BUILD_TYPE: Release
   # rpi4 release build
-  example-rpi4-release-build-raylib:
+  raylib-examples-rpi4-release-build-raylib:
     build:
       context: .
       dockerfile: Dockerfile
       target: rpi4-build
+    environment:
+      TARGET: all
+      BUILD_TYPE: Release
+  # rpi release build
+  raylib-examples-rpi-release-build-raylib:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: rpi-build
     environment:
       TARGET: all
       BUILD_TYPE: Release
