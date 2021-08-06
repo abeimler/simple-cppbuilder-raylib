@@ -11,23 +11,49 @@ RUN pacman-db-upgrade && \
         alsa-lib alsa-utils alsa-oss \
         libdrm libevdev 
 
-# Install glad from pip
-#RUN python3 -m pip install --upgrade pip setuptools && \
-#    python3 -m pip install glad
+# get ArchLinux ARM includes and libraries and other libraries for development
+ARG arch_linux_arm_dir="/home/ArchLinuxARM"
+ARG get_arch_linux_arm_os="http://os.archlinuxarm.org/os/ArchLinuxARM-rpi-latest.tar.gz"
+ARG get_arch_linux_arm_mesa="http://mirror.archlinuxarm.org/armv6h/extra/mesa-21.1.6-1-armv6h.pkg.tar.xz"
+ARG get_arch_linux_arm_libdrm="http://mirror.archlinuxarm.org/armv6h/extra/libdrm-2.4.107-1-armv6h.pkg.tar.xz"
+ARG get_arch_linux_arm_libx11="http://mirror.archlinuxarm.org/armv6h/extra/libx11-1.7.2-1-armv6h.pkg.tar.xz"
+## @TODO: install more dependencies, better dependency download
+RUN wget -O /tmp/ArchLinuxARM-rpi-latest.tar.gz $get_arch_linux_arm_os
+RUN wget -O /tmp/mesa-arm.pkg.tar.xz $get_arch_linux_arm_mesa
+RUN wget -O /tmp/libdrm-arm.pkg.tar.xz $get_arch_linux_arm_libdrm
+RUN wget -O /tmp/libx11-arm.pkg.tar.xz $get_arch_linux_arm_libx11
+RUN mkdir -p /tmp/ArchLinuxARM && tar -xzf /tmp/ArchLinuxARM-rpi-latest.tar.gz -C /tmp/ArchLinuxARM
+RUN mkdir -p /tmp/ArchLinuxARMMesa && tar -xf /tmp/mesa-arm.pkg.tar.xz -C /tmp/ArchLinuxARMMesa
+RUN mkdir -p /tmp/ArchLinuxARMLibDRM && tar -xf /tmp/libdrm-arm.pkg.tar.xz -C /tmp/ArchLinuxARMLibDRM
+RUN mkdir -p /tmp/ArchLinuxARMLibX11 && tar -xf /tmp/libx11-arm.pkg.tar.xz -C /tmp/ArchLinuxARMLibX11
+RUN mkdir -p $arch_linux_arm_dir && mkdir -p $arch_linux_arm_dir/usr/include && mkdir -p $arch_linux_arm_dir/usr/lib && mkdir -p $arch_linux_arm_dir/usr/local/include && mkdir -p $arch_linux_arm_dir/usr/local/lib && \
+    cp -Rf  /tmp/ArchLinuxARM/usr/include/* $arch_linux_arm_dir/usr/include && \
+    cp -Rf  /tmp/ArchLinuxARM/usr/lib/* $arch_linux_arm_dir/usr/lib && \
+    cp -Rf  /tmp/ArchLinuxARMMesa/usr/include/* $arch_linux_arm_dir/usr/local/include && \
+    cp -Rf  /tmp/ArchLinuxARMMesa/usr/lib/* $arch_linux_arm_dir/usr/local/lib && \
+    cp -Rf  /tmp/ArchLinuxARMLibDRM/usr/include/* $arch_linux_arm_dir/usr/local/include && \
+    cp -Rf  /tmp/ArchLinuxARMLibDRM/usr/lib/* $arch_linux_arm_dir/usr/local/lib && \
+    cp -Rf  /tmp/ArchLinuxARMLibX11/usr/include/* $arch_linux_arm_dir/usr/local/include && \
+    cp -Rf  /tmp/ArchLinuxARMLibX11/usr/lib/* $arch_linux_arm_dir/usr/local/lib
+RUN rm -rf /tmp/ArchLinuxARM/* && rm -rf /tmp/ArchLinuxARMMesa/* && rm -rf /tmp/ArchLinuxARMLibDRM/* && rm -rf /tmp/ArchLinuxARMLibX11/* && rm -rf /tmp/ArchLinuxARM* && rm -rf /tmp/*.tar.*
 
+ENV ARCHLINUX_ARM_DIR $arch_linux_arm_dir
+ENV ARCHLINUX_ARM_INCLUDES_DIR ${ARCHLINUX_ARM_DIR}/usr/include
+ENV ARCHLINUX_ARM_LOCAL_INCLUDES_DIR ${ARCHLINUX_ARM_DIR}/usr/local/include
+ENV ARCHLINUX_ARM_LIBRARIES_DIR ${ARCHLINUX_ARM_DIR}/usr/lib
+ENV ARCHLINUX_ARM_LOCAL_LIBRARIES_DIR ${ARCHLINUX_ARM_DIR}/usr/local/lib
 
+# get raylib
 ARG raylib_repo="https://github.com/raysan5/raylib.git"
 ARG raylib_branch="master"
 ARG raylib_source_dir="/home/project/libs/raylib"
 ARG raylib_binary_dir="/home/project/libs/raylib/build"
 ARG raylib_platform="Raspberry Pi"
 ARG raylib_cmake_args
+RUN git clone --depth 1 --branch $raylib_branch $raylib_repo $raylib_source_dir
 
-RUN git clone --depth 1 $raylib_repo $raylib_source_dir
-RUN cd $raylib_source_dir && git checkout $raylib_branch
-RUN mkdir -p $raylib_binary_dir
-COPY scripts/docker-build.raylib.rpi.sh $raylib_source_dir/docker-build.sh
-
+# cross compiler settings
+COPY ./cmake/* /home/cmake/
 ENV TOOLCHAIN_FILE $CROSS_TOOLCHAIN
 
 # build script settings
@@ -36,6 +62,8 @@ ENV RAYLIB_CMAKE_ARGS "-DPLATFORM=$raylib_platform $raylib_cmake_args"
 ENV RAYLIB_SOURCE_DIR $raylib_source_dir
 ENV RAYLIB_BINARY_DIR $raylib_binary_dir
 ENV RAYLIB_PLATFORM $raylib_platform
+RUN mkdir -p $raylib_binary_dir
+COPY scripts/docker-build.raylib.rpi.sh $raylib_source_dir/docker-build.sh
 #RUN cd $raylib_source_dir && $raylib_source_dir/docker-build.sh
 RUN rm -rf $raylib_binary_dir/* && mkdir -p $raylib_binary_dir
 

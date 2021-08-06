@@ -57,11 +57,13 @@ $ docker run -it --rm --name my-raylib-project -v "$PWD":/home/project -w /home/
 
 ### `:latest`
 
-Default image with gcc, buildtools and [raylib](https://github.com/raysan5/raylib/wiki/Working-on-GNU-Linux) (Platform: `Desktop`).
+Default image with gcc, buildtools and [raylib](https://github.com/raysan5/raylib/wiki/Working-on-GNU-Linux) (Platform: `Desktop`).  
+_More infos [here](https://github.com/raysan5/raylib/wiki/Working-on-GNU-Linux)_
 
 ### `:x64-mingw-w64`, `x86-mingw-w64`
 
-Default image with mingw-w64-cross-compiler and [raylib](https://github.com/raysan5/raylib/wiki/Working-on-Windows) (Platform: `Desktop`).
+Default image with mingw-w64-cross-compiler and [raylib](https://github.com/raysan5/raylib/wiki/Working-on-Windows) (Platform: `Desktop`).  
+_More infos [here](https://github.com/raysan5/raylib/wiki/Working-on-Windows)_
 
 ### Cross-Compiler (experimental)
 
@@ -69,19 +71,23 @@ _Not fully tested_
 
 #### `:web`
 
-Default image with emscripten and [raylib](https://github.com/raysan5/raylib/wiki/Working-for-Web-(HTML5)) (Platform: `Web`).
+Default image with emscripten and [raylib](https://github.com/raysan5/raylib/wiki/Working-for-Web-(HTML5)) (Platform: `Web`).  
+_More infos [here](https://github.com/raysan5/raylib/wiki/Working-for-Web-(HTML5))_
 
 #### `:rpi4`, `:rpi3`, `:rpi2`
 
-Default image with arm-cross-compiler and [raylib](https://github.com/raysan5/raylib/wiki/Working-on-Raspberry-Pi) (Platform: `DRM`, `Raspberry Pi`).
+Default image with arm-cross-compiler and [raylib](https://github.com/raysan5/raylib/wiki/Working-on-Raspberry-Pi) (Platform: `DRM`, `Raspberry Pi`).  
+_More infos [here](https://github.com/raysan5/raylib/wiki/Working-on-Raspberry-Pi)_
 
 ##### `:rpi4-desktop`
 
-Default image with arm-cross-compiler and [raylib](https://github.com/raysan5/raylib/wiki/Working-on-Raspberry-Pi) (Platform: `Desktop` and `OPENGL_VERSION=2.1`).
+Default image with arm-cross-compiler and [raylib](https://github.com/raysan5/raylib/wiki/Working-on-Raspberry-Pi) (Platform: `Desktop` and `OPENGL_VERSION=2.1`).  
+_More infos [here](https://github.com/raysan5/raylib/wiki/Working-on-Raspberry-Pi)_
 
 #### `:arm-android`, `:arm64-android`, `:x86-android`, `:x64-android`
 
-Default image with android-ndk and [raylib](https://github.com/raysan5/raylib/wiki/Working-for-Android-(on-Linux)) (Platform: `Android`).
+Default image with android-ndk and [raylib](https://github.com/raysan5/raylib/wiki/Working-for-Android-(on-Linux)) (Platform: `Android`).  
+_More infos [here](https://github.com/raysan5/raylib/wiki/Working-for-Android)_
 
 
 ## Environment Variables
@@ -118,6 +124,50 @@ CMake Toolchain File `-DCMAKE_TOOLCHAIN_FILE`.
 
 Custom CMake Arguments, e.g. `-DUSE_AUDIO:BOOL=OFF` or `-DSUPPORT_GESTURES_SYSTEM:BOOL=OFF -DSUPPORT_MOUSE_GESTURES:BOOL=OFF` (see [CMake Build Options](https://github.com/raysan5/raylib/wiki/CMake-Build-Options)).  
 
+
+## Troubleshooting
+
+For raylib troubleshooting, please check the [raylib wiki](https://github.com/raysan5/raylib/wiki)
+
+### Android (Cross compiling)
+
+#### `android_native_app_glue.h: No such file or directory`
+
+add the `<ANDROID_NDK_HOME>/sources/android/native_app_glue`-path into your `include_directories`.
+_use env. variable `NATIVE_APP_GLUE_PATH`_
+
+```cmake
+if (${PLATFORM} MATCHES "Android")
+    include_directories($ENV{NATIVE_APP_GLUE_PATH})
+endif()
+```
+
+### Raspberry Pi (Cross compiling)
+
+#### `GLES2/gl2.h`, `bcm_host.h` and other Raspberry Pi includes/libraries are missing
+
+add the `/opt/vc/include`-path into your `include_directories`.
+
+```cmake
+if (${PLATFORM} MATCHES "DRM" OR ${PLATFORM} MATCHES "Raspberry Pi")
+    include_directories(BEFORE SYSTEM /opt/vc/include)
+    link_directories(BEFORE /opt/vc/lib)
+endif ()
+```
+
+#### `GL/gl.h`, `gbm.h` and native system includes/libraries are missing
+
+add the Arch Linux ARM include- and library-directories.
+_use env. variables `ARCHLINUX_ARM_<LOCAL>_<INCLUDES/LIBRARIES>_DIR`_
+
+```cmake
+if (${PLATFORM} MATCHES "DRM" OR ${PLATFORM} MATCHES "Raspberry Pi")
+    include_directories(BEFORE SYSTEM $ENV{ARCHLINUX_ARM_INCLUDES_DIR} $ENV{ARCHLINUX_ARM_LOCAL_INCLUDES_DIR})
+    link_directories(BEFORE $ENV{ARCHLINUX_ARM_LIBRARIES_DIR} $ENV{ARCHLINUX_ARM_LOCAL_LIBRARIES_DIR})
+endif ()
+```
+
+#### 
 
 ## License
 

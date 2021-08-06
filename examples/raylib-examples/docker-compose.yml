@@ -61,12 +61,12 @@ services:
     environment:
       TARGET: all
       BUILD_TYPE: Release
-  # rpi release build
-  raylib-examples-rpi-release-build-raylib:
+  # android release build
+  raylib-examples-android-release-build-raylib:
     build:
       context: .
       dockerfile: Dockerfile
-      target: rpi-build
+      target: android-build
     environment:
       TARGET: all
       BUILD_TYPE: Release

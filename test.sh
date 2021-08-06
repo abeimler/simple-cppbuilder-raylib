@@ -8,7 +8,8 @@ docker-compose -f examples/raylib-examples/docker-compose.yml up --build raylib-
 docker-compose -f examples/raylib-examples/docker-compose.yml up --build raylib-examples-mingw-release-build-raylib
 
 docker-compose -f examples/raylib-examples/docker-compose.yml up --build raylib-examples-web-release-build-raylib
+docker-compose -f examples/raylib-examples/docker-compose.yml up --build raylib-examples-android-release-build-raylib
 
-docker-compose -f examples/raylib-examples/docker-compose.yml up --build raylib-examples-rpi4-desktop-release-build-raylib
 docker-compose -f examples/raylib-examples/docker-compose.yml up --build raylib-examples-rpi4-release-build-raylib
 docker-compose -f examples/raylib-examples/docker-compose.yml up --build raylib-examples-rpi-release-build-raylib
+docker-compose -f examples/raylib-examples/docker-compose.yml up --build raylib-examples-rpi4-desktop-release-build-raylib

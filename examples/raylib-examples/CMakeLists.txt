@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.15)
 # Setup the project and settings
 project(examples)
 
@@ -5,6 +6,7 @@ project(examples)
 add_subdirectory($ENV{RAYLIB_SOURCE_DIR})
 # or use find_package for native linux builds
 #find_package(raylib REQUIRED)
+#message(STATUS "Platform: ${PLATFORM}")
 
 # Directories that contain examples
 set(example_dirs
@@ -68,7 +70,9 @@ if(NOT CMAKE_USE_PTHREADS_INIT OR NOT HAVE_STDATOMIC_H)
     list(REMOVE_ITEM example_sources ${CMAKE_CURRENT_SOURCE_DIR}/core/core_loading_thread.c)
 endif ()
 
-if (${PLATFORM} MATCHES "Android")
+if ("${PLATFORM}" MATCHES "Android")
+    include_directories(BEFORE SYSTEM $ENV{NATIVE_APP_GLUE_PATH})
+
     list(REMOVE_ITEM example_sources ${CMAKE_CURRENT_SOURCE_DIR}/others/rlgl_standalone.c)
     list(REMOVE_ITEM example_sources ${CMAKE_CURRENT_SOURCE_DIR}/others/standard_lighting.c)
     list(REMOVE_ITEM example_sources ${CMAKE_CURRENT_SOURCE_DIR}/core/core_3d_picking.c)
@@ -99,7 +103,8 @@ if (${PLATFORM} MATCHES "Android")
     list(REMOVE_ITEM example_sources ${CMAKE_CURRENT_SOURCE_DIR}/shaders/shaders_palette_switch.c)
     list(REMOVE_ITEM example_sources ${CMAKE_CURRENT_SOURCE_DIR}/shaders/shaders_basic_lighting.c)
 
-elseif (${PLATFORM} MATCHES "Web")
+    message(STATUS "Android, include_directories: $ENV{NATIVE_APP_GLUE_PATH}")
+elseif ("${PLATFORM}" MATCHES "Web")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Os -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -s ASYNCIFY")
     # Since WASM is used, ALLOW_MEMORY_GROWTH has no extra overheads
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s ALLOW_MEMORY_GROWTH=1 --no-heap-copy")
@@ -110,6 +115,13 @@ elseif (${PLATFORM} MATCHES "Web")
     # does not generate HTML+JS+WASM files, only a non-working
     # and fat HTML
     string(REPLACE "-rdynamic" "" CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "${CMAKE_SHARED_LIBRARY_LINK_C_FLAGS}")
+
+    message(STATUS "Web, CMAKE_C_FLAGS: ${CMAKE_C_FLAGS}")
+elseif ("${PLATFORM}" MATCHES "DRM" OR "${PLATFORM}" MATCHES "Raspberry Pi")
+    include_directories(BEFORE SYSTEM /opt/vc/include $ENV{ARCHLINUX_ARM_INCLUDES_DIR} $ENV{ARCHLINUX_ARM_LOCAL_INCLUDES_DIR})
+    link_directories(BEFORE /opt/vc/lib $ENV{ARCHLINUX_ARM_LIBRARIES_DIR} $ENV{ARCHLINUX_ARM_LOCAL_LIBRARIES_DIR})
+
+    message(STATUS "DRM/RPI, include_directories: /opt/vc/include $ENV{ARCHLINUX_ARM_INCLUDES_DIR} $ENV{ARCHLINUX_ARM_LOCAL_INCLUDES_DIR}")
 endif ()
 
 include_directories(BEFORE SYSTEM others/external/include)
