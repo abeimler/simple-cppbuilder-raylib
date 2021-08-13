@@ -18,13 +18,14 @@ RUN git clone --depth 1 --branch $raylib_branch $raylib_repo $raylib_source_dir
 
 # cross compile settings
 ENV TOOLCHAIN_FILE $CROSS_TOOLCHAIN
+ENV CMAKE "cmake"
 
 
 # build script settings
 ARG raylib_platform="Desktop"
 ARG raylib_cmake_args
 ENV RAYLIB_ADDITIONAL_CMAKE_ARGS ""
-ENV RAYLIB_CMAKE_ARGS "-DPLATFORM=$raylib_platform $raylib_cmake_args"
+ENV RAYLIB_CMAKE_ARGS "-DPLATFORM:STRING=$raylib_platform $raylib_cmake_args"
 ENV RAYLIB_SOURCE_DIR $raylib_source_dir
 ENV RAYLIB_BINARY_DIR $raylib_binary_dir
 ENV RAYLIB_PLATFORM $raylib_platform

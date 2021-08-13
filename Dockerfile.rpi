@@ -37,7 +37,7 @@ RUN mkdir -p $arch_linux_arm_dir && mkdir -p $arch_linux_arm_dir/usr/include && 
     cp -Rf  /tmp/ArchLinuxARMLibDRM/usr/include/* $arch_linux_arm_dir/usr/local/include && \
     cp -Rf  /tmp/ArchLinuxARMLibDRM/usr/lib/* $arch_linux_arm_dir/usr/local/lib && \
     cp -Rf  /tmp/ArchLinuxARMLibX11/usr/include/* $arch_linux_arm_dir/usr/local/include && \
-    cp -Rf  /tmp/ArchLinuxARMLibX11/usr/lib/* $arch_linux_arm_dir/usr/local/lib \
+    cp -Rf  /tmp/ArchLinuxARMLibX11/usr/lib/* $arch_linux_arm_dir/usr/local/lib && \
     cp -Rf  /tmp/ArchLinuxARMGLU/usr/include/* $arch_linux_arm_dir/usr/local/include && \
     cp -Rf  /tmp/ArchLinuxARMGLU/usr/lib/* $arch_linux_arm_dir/usr/local/lib
 RUN rm -rf /tmp/ArchLinuxARM/* && rm -rf /tmp/ArchLinuxARMMesa/* && rm -rf /tmp/ArchLinuxARMLibDRM/* && rm -rf /tmp/ArchLinuxARMLibX11/* && rm -rf /tmp/ArchLinuxARMGLU/* && rm -rf /tmp/ArchLinuxARM* && rm -rf /tmp/*.tar.*
@@ -45,6 +45,7 @@ RUN rm -rf /tmp/ArchLinuxARM/* && rm -rf /tmp/ArchLinuxARMMesa/* && rm -rf /tmp/
 ENV ARCHLINUX_ARM_DIR $arch_linux_arm_dir
 ENV ARCHLINUX_ARM_INCLUDES_DIR ${ARCHLINUX_ARM_DIR}/usr/include
 ENV ARCHLINUX_ARM_LOCAL_INCLUDES_DIR ${ARCHLINUX_ARM_DIR}/usr/local/include
+ENV ARCHLINUX_ARM_LIBDRM_INCLUDES_DIR ${ARCHLINUX_ARM_DIR}/usr/local/include/libdrm
 ENV ARCHLINUX_ARM_LIBRARIES_DIR ${ARCHLINUX_ARM_DIR}/usr/lib
 ENV ARCHLINUX_ARM_LOCAL_LIBRARIES_DIR ${ARCHLINUX_ARM_DIR}/usr/local/lib
 
@@ -63,7 +64,7 @@ ENV TOOLCHAIN_FILE $CROSS_TOOLCHAIN
 
 # build script settings
 ENV RAYLIB_ADDITIONAL_CMAKE_ARGS ""
-ENV RAYLIB_CMAKE_ARGS "-DPLATFORM=$raylib_platform $raylib_cmake_args"
+ENV RAYLIB_CMAKE_ARGS "-DPLATFORM:STRING=$raylib_platform $raylib_cmake_args"
 ENV RAYLIB_SOURCE_DIR $raylib_source_dir
 ENV RAYLIB_BINARY_DIR $raylib_binary_dir
 ENV RAYLIB_PLATFORM $raylib_platform

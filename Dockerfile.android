@@ -29,7 +29,7 @@ ENV NATIVE_APP_GLUE_PATH ${ANDROID_NDK_HOME}/sources/android/native_app_glue
 ARG raylib_platform="Android"
 ARG raylib_cmake_args
 ENV RAYLIB_ADDITIONAL_CMAKE_ARGS ""
-ENV RAYLIB_CMAKE_ARGS "-DPLATFORM=$raylib_platform $raylib_cmake_args"
+ENV RAYLIB_CMAKE_ARGS "-DPLATFORM:STRING=$raylib_platform $raylib_cmake_args"
 ENV RAYLIB_SOURCE_DIR $raylib_source_dir
 ENV RAYLIB_BINARY_DIR $raylib_binary_dir
 ENV RAYLIB_PLATFORM $raylib_platform

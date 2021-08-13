@@ -149,22 +149,22 @@ endif()
 add the `/opt/vc/include`-path into your `include_directories`.
 
 ```cmake
-if (${PLATFORM} MATCHES "DRM" OR ${PLATFORM} MATCHES "Raspberry Pi")
-    include_directories(BEFORE SYSTEM /opt/vc/include)
-    link_directories(BEFORE /opt/vc/lib)
-endif ()
+if (PLATFORM STREQUAL "Raspberry Pi")
+    include_directories(BEFORE SYSTEM /opt/vc/include /opt/vc/include/interface/vmcs_host/linux /opt/vc/include/interface/vcos/pthreads $ENV{ARCHLINUX_ARM_INCLUDES_DIR} $ENV{ARCHLINUX_ARM_LOCAL_INCLUDES_DIR})
+    link_directories(BEFORE /opt/vc/lib $ENV{ARCHLINUX_ARM_LIBRARIES_DIR} $ENV{ARCHLINUX_ARM_LOCAL_LIBRARIES_DIR})
+endif()
 ```
 
-#### `GL/gl.h`, `gbm.h` and native system includes/libraries are missing
+#### `drm.h`, `gbm.h` and native system includes/libraries are missing
 
 add the Arch Linux ARM include- and library-directories.
 _use env. variables `ARCHLINUX_ARM_<LOCAL>_<INCLUDES/LIBRARIES>_DIR`_
 
 ```cmake
-if (${PLATFORM} MATCHES "DRM" OR ${PLATFORM} MATCHES "Raspberry Pi")
-    include_directories(BEFORE SYSTEM $ENV{ARCHLINUX_ARM_INCLUDES_DIR} $ENV{ARCHLINUX_ARM_LOCAL_INCLUDES_DIR})
+if (PLATFORM STREQUAL "DRM")
+    include_directories(BEFORE SYSTEM $ENV{ARCHLINUX_ARM_INCLUDES_DIR} $ENV{ARCHLINUX_ARM_LOCAL_INCLUDES_DIR} $ENV{ARCHLINUX_ARM_LIBDRM_INCLUDES_DIR})
     link_directories(BEFORE $ENV{ARCHLINUX_ARM_LIBRARIES_DIR} $ENV{ARCHLINUX_ARM_LOCAL_LIBRARIES_DIR})
-endif ()
+endif()
 ```
 
 #### 
