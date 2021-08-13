@@ -16,6 +16,7 @@ RUN git clone --depth 1 --branch $raylib_branch $raylib_repo $raylib_source_dir
 
 # compile settings
 ENV TOOLCHAIN_FILE $CHAINLOAD_TOOLCHAIN_FILE
+ENV VCPKG_TOOLCHAIN_FILE "/home/project/vcpkg/scripts/buildsystems/vcpkg.cmake"
 
 
 # build script settings
@@ -27,6 +28,7 @@ ENV RAYLIB_CMAKE_ARGS "-DPLATFORM:STRING=$raylib_platform $raylib_cmake_args"
 ENV RAYLIB_SOURCE_DIR $raylib_source_dir
 ENV RAYLIB_BINARY_DIR $raylib_binary_dir
 ENV RAYLIB_PLATFORM $raylib_platform
+ENV ADDITIONAL_CMAKE_ARGS ""
 
 # build raylib
 RUN mkdir -p $raylib_binary_dir

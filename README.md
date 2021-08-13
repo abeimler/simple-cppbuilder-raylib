@@ -120,9 +120,13 @@ target run by cmake `cmake --target`, default: `all`.
 
 CMake Toolchain File `-DCMAKE_TOOLCHAIN_FILE`.
 
-### `RAYLIB_ADDITIONAL_CMAKE_ARGS`, `CMAKE_ARGS`
+### `RAYLIB_ADDITIONAL_CMAKE_ARGS`
 
-Custom CMake Arguments, e.g. `-DUSE_AUDIO:BOOL=OFF` or `-DSUPPORT_GESTURES_SYSTEM:BOOL=OFF -DSUPPORT_MOUSE_GESTURES:BOOL=OFF` (see [CMake Build Options](https://github.com/raysan5/raylib/wiki/CMake-Build-Options)).  
+Custom CMake Arguments for raylib, e.g. `-DUSE_AUDIO:BOOL=OFF` or `-DSUPPORT_GESTURES_SYSTEM:BOOL=OFF -DSUPPORT_MOUSE_GESTURES:BOOL=OFF` (see [CMake Build Options](https://github.com/raysan5/raylib/wiki/CMake-Build-Options)).  
+
+## `CMAKE_ARGS`, `ADDITIONAL_CMAKE_ARGS`
+
+Custom CMake Arguments, e.g. `-DENABLE_COVERAGE:BOOL=ON`.
 
 
 ## Troubleshooting
@@ -167,7 +171,20 @@ if (PLATFORM STREQUAL "DRM")
 endif()
 ```
 
-#### 
+## More Examples
+
+### Using vcpkg
+
+Set `TOOLCHAIN` to `$VCPKG_TOOLCHAIN_FILE` and set `-DVCPKG_CHAINLOAD_TOOLCHAIN_FILE="${CHAINLOAD_TOOLCHAIN_FILE}"` into `ADDITIONAL_CMAKE_ARGS`.  
+
+```Dockerfile
+FROM abeimler/simple-cppbuilder-raylib as build
+COPY . .
+ENV TOOLCHAIN $VCPKG_TOOLCHAIN_FILE
+ENV ADDITIONAL_CMAKE_ARGS -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE="${CHAINLOAD_TOOLCHAIN_FILE}"
+CMD ["./docker-build.sh"]
+```
+
 
 ## License
 

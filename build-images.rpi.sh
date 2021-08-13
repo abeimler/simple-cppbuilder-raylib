@@ -45,13 +45,13 @@ docker build --force-rm=true -f ./Dockerfile.rpi \
     --build-arg raylib_cmake_args="-DCMAKE_CROSSCOMPILING=ON" \
     -t abeimler/simple-cppbuilder-raylib:rpi2 .
 
-#docker build --force-rm=true -f ./Dockerfile.rpi \
-#    --build-arg image_tag="rpi" \
-#    --build-arg raylib_platform="Raspberry Pi" \
-#    --build-arg get_arch_linux_arm_os="http://os.archlinuxarm.org/os/ArchLinuxARM-rpi-latest.tar.gz" \
-#    --build-arg get_arch_linux_arm_mesa="http://mirror.archlinuxarm.org/armv6h/extra/mesa-21.1.6-1-armv6h.pkg.tar.xz" \
-#    --build-arg get_arch_linux_arm_libdrm="http://mirror.archlinuxarm.org/armv6h/extra/libdrm-2.4.107-1-armv6h.pkg.tar.xz" \
-#    --build-arg get_arch_linux_arm_libx11="http://mirror.archlinuxarm.org/armv6h/extra/libx11-1.7.2-1-armv6h.pkg.tar.xz" \
-#    --build-arg get_arch_linux_arm_glu="http://mirror.archlinuxarm.org/armv6h/extra/glu-9.0.2-1-armv6h.pkg.tar.xz" \
-#    --build-arg raylib_cmake_args="-DCMAKE_CROSSCOMPILING=ON" \
-#    -t abeimler/simple-cppbuilder-raylib:rpi .
+docker build --force-rm=true -f ./Dockerfile.rpi \
+    --build-arg image_tag="rpi1" \
+    --build-arg raylib_platform="Raspberry Pi" \
+    --build-arg get_arch_linux_arm_os="http://os.archlinuxarm.org/os/ArchLinuxARM-rpi-latest.tar.gz" \
+    --build-arg get_arch_linux_arm_mesa="http://mirror.archlinuxarm.org/armv6h/extra/mesa-21.1.6-1-armv6h.pkg.tar.xz" \
+    --build-arg get_arch_linux_arm_libdrm="http://mirror.archlinuxarm.org/armv6h/extra/libdrm-2.4.107-1-armv6h.pkg.tar.xz" \
+    --build-arg get_arch_linux_arm_libx11="http://mirror.archlinuxarm.org/armv6h/extra/libx11-1.7.2-1-armv6h.pkg.tar.xz" \
+    --build-arg get_arch_linux_arm_glu="http://mirror.archlinuxarm.org/armv6h/extra/glu-9.0.2-1-armv6h.pkg.tar.xz" \
+    --build-arg raylib_cmake_args="-DCMAKE_CROSSCOMPILING=ON" \
+    -t abeimler/simple-cppbuilder-raylib:rpi1 .
