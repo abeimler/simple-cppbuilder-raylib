@@ -23,5 +23,5 @@ docker build --force-rm=true -f ./Dockerfile.linux \
 docker build --force-rm=true -f ./Dockerfile.cross \
     --build-arg image_tag="emscripten" \
     --build-arg raylib_platform="Web" \
-    --build-arg raylib_cmake_args="-DCMAKE_CROSSCOMPILING=ON" \
+    --build-arg raylib_cmake_args="-DCMAKE_CROSSCOMPILING:BOOL=ON" \
     -t abeimler/simple-cppbuilder-raylib:web .
