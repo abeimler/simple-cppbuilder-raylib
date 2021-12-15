@@ -15,7 +15,6 @@ ARG raylib_binary_dir="/home/project/libs/raylib/build"
 RUN git clone --depth 1 --branch $raylib_branch $raylib_repo $raylib_source_dir
 
 # compile settings
-ENV TOOLCHAIN_FILE $CHAINLOAD_TOOLCHAIN_FILE
 ENV VCPKG_TOOLCHAIN_FILE "/home/project/vcpkg/scripts/buildsystems/vcpkg.cmake"
 
 

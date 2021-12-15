@@ -1,0 +1,7 @@
+build/
+build-linux/
+build-linux-shared/
+build-windows/
+build-rpi/
+build-rpi4/
+build-android/

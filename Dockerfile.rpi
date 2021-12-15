@@ -60,9 +60,9 @@ RUN git clone --depth 1 --branch $raylib_branch $raylib_repo $raylib_source_dir
 
 # cross compiler settings
 COPY ./cmake/* /home/cmake/
-ENV TOOLCHAIN_FILE $CROSS_TOOLCHAIN
+ENV CMAKE_TOOLCHAIN_FILE $CROSS_TOOLCHAIN
 ENV VCPKG_TOOLCHAIN_FILE "/home/project/vcpkg/scripts/buildsystems/vcpkg.cmake"
-ENV CHAINLOAD_TOOLCHAIN_FILE $TOOLCHAIN_FILE
+ENV VCPKG_CHAINLOAD_TOOLCHAIN_FILE $CMAKE_TOOLCHAIN_FILE
 ENV ADDITIONAL_CMAKE_ARGS ""
 
 # build script settings

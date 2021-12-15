@@ -4,6 +4,7 @@ docker build --force-rm=true -f ./Dockerfile.base -t abeimler/simple-cppbuilder-
 
 docker build --force-rm=true -f ./Dockerfile.linux -t abeimler/simple-cppbuilder-raylib .
 
+docker build --force-rm=true -f ./Dockerfile.linux --build-arg raylib_branch="4.0.0"  -t abeimler/simple-cppbuilder-raylib:4.0.0 .
 docker build --force-rm=true -f ./Dockerfile.linux --build-arg raylib_branch="3.7.0"  -t abeimler/simple-cppbuilder-raylib:3.7.0 .
 docker build --force-rm=true -f ./Dockerfile.linux --build-arg raylib_branch="3.5.0"  -t abeimler/simple-cppbuilder-raylib:3.5.0 .
 #docker build --force-rm=true -f ./Dockerfile.linux --build-arg raylib_branch="3.0.0"  -t abeimler/simple-cppbuilder-raylib:3.0.0 .

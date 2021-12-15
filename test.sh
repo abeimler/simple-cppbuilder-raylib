@@ -1,5 +1,7 @@
 #!/bin/bash
 
+docker-compose -f examples/example-vcpkg/docker-compose.yml up --build example-gcc-release-build-raylib
+
 docker-compose -f examples/example/docker-compose.yml up --build example-gcc-release-build-raylib
 docker-compose -f examples/example/docker-compose.yml up --build example-mingw-release-build-raylib
 

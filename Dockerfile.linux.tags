@@ -19,7 +19,6 @@ RUN git clone --depth 1 --branch tags/$raylib_tag $raylib_repo $raylib_source_di
 # build script settings
 ARG raylib_platform="Desktop"
 ARG raylib_cmake_args=""
-ENV TOOLCHAIN_FILE $CHAINLOAD_TOOLCHAIN_FILE
 ENV VCPKG_TOOLCHAIN_FILE "/home/project/vcpkg/scripts/buildsystems/vcpkg.cmake"
 ENV RAYLIB_TARGET "all"
 ENV RAYLIB_ADDITIONAL_CMAKE_ARGS ""

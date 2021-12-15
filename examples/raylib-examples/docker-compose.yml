@@ -1,5 +1,5 @@
----
-version: "3.9"
+version: '3.4'
+
 services:
   # linux gcc debug build
   raylib-examples-gcc-debug-build-raylib:
@@ -11,7 +11,7 @@ services:
       CC: gcc
       CXX: g++
       TARGET: all
-      BUILD_TYPE: Debug
+      CMAKE_BUILD_TYPE: Debug
       CMAKE_GENERATOR: Ninja
   # linux gcc release build
   raylib-examples-gcc-release-build-raylib:
@@ -23,7 +23,7 @@ services:
       CC: gcc
       CXX: g++
       TARGET: all
-      BUILD_TYPE: Release
+      CMAKE_BUILD_TYPE: Release
       CMAKE_GENERATOR: Ninja
   # windows (mingw) release build
   raylib-examples-mingw-release-build-raylib:
@@ -33,7 +33,7 @@ services:
       target: windows-build
     environment:
       TARGET: all
-      BUILD_TYPE: Release
+      CMAKE_BUILD_TYPE: Release
   # web release build
   raylib-examples-web-release-build-raylib:
     build:
@@ -42,7 +42,7 @@ services:
       target: web-build
     environment:
       TARGET: all
-      BUILD_TYPE: Release
+      CMAKE_BUILD_TYPE: Release
   # rpi (Desktop) release build
   raylib-examples-rpi4-desktop-release-build-raylib:
     build:
@@ -51,7 +51,7 @@ services:
       target: rpi4-desktop-build
     environment:
       TARGET: all
-      BUILD_TYPE: Release
+      CMAKE_BUILD_TYPE: Release
   # rpi4 release build
   raylib-examples-rpi4-release-build-raylib:
     build:
@@ -60,7 +60,7 @@ services:
       target: rpi4-build
     environment:
       TARGET: all
-      BUILD_TYPE: Release
+      CMAKE_BUILD_TYPE: Release
   # android release build
   raylib-examples-android-release-build-raylib:
     build:
@@ -69,4 +69,4 @@ services:
       target: android-build
     environment:
       TARGET: all
-      BUILD_TYPE: Release
+      CMAKE_BUILD_TYPE: Release

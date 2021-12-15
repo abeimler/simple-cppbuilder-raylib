@@ -107,7 +107,7 @@ Can also be `clang++`.
 CMake Generator `cmake -G`, default: `Ninja`.
 Can also be `Unix Makefiles`.  
 
-### `BUILD_TYPE`
+### `CMAKE_BUILD_TYPE`
 
 CMake BuildType `-DCMAKE_BUILD_TYPE`, default: `Release`.
 Can also be `Debug`, `RelWithDebInfo` or `MinSizeRel`.  
@@ -116,7 +116,7 @@ Can also be `Debug`, `RelWithDebInfo` or `MinSizeRel`.
 
 target run by cmake `cmake --target`, default: `all`.  
 
-### `TOOLCHAIN_FILE`
+### `CMAKE_TOOLCHAIN_FILE`
 
 CMake Toolchain File `-DCMAKE_TOOLCHAIN_FILE`.
 
@@ -175,13 +175,13 @@ endif()
 
 ### Using vcpkg
 
-Set `TOOLCHAIN` to `$VCPKG_TOOLCHAIN_FILE` and set `-DVCPKG_CHAINLOAD_TOOLCHAIN_FILE="${CHAINLOAD_TOOLCHAIN_FILE}"` into `ADDITIONAL_CMAKE_ARGS`.  
+Set the Envirement-Variable `CMAKE_TOOLCHAIN_FILE` to `/home/project/vcpkg/scripts/buildsystems/vcpkg.cmake` and add `-DVCPKG_CHAINLOAD_TOOLCHAIN_FILE="${VCPKG_CHAINLOAD_TOOLCHAIN_FILE}"` (for cross-compiling) in `ADDITIONAL_CMAKE_ARGS`.  
 
 ```Dockerfile
 FROM abeimler/simple-cppbuilder-raylib as build
+ENV CMAKE_TOOLCHAIN_FILE "/home/project/vcpkg/scripts/buildsystems/vcpkg.cmake"
+ENV ADDITIONAL_CMAKE_ARGS -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE="${VCPKG_CHAINLOAD_TOOLCHAIN_FILE}"
 COPY . .
-ENV TOOLCHAIN $VCPKG_TOOLCHAIN_FILE
-ENV ADDITIONAL_CMAKE_ARGS -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE="${CHAINLOAD_TOOLCHAIN_FILE}"
 CMD ["./docker-build.sh"]
 ```
 
